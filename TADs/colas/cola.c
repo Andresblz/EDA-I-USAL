@@ -13,7 +13,7 @@ int colaVacia(Cola *c) {
 	return (c->frente == NULL && c->fondo == NULL);
 }
 
-int colaInserta(Cola *c, tipoElemento elemento){ 
+int colaInserta(Cola *c, tipoElemento elemento) { 
 	tipoCelda *celda;
 	
 	if(c == NULL) return -1;
