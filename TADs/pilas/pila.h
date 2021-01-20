@@ -11,7 +11,7 @@ typedef int tipoElemento;
 typedef struct tipoCelda { 
 	tipoElemento elemento; 
 	struct tipoCelda * sig; 
-	} tipoCelda;
+} tipoCelda;
 #endif
 	
 typedef tipoCelda * Pila;
