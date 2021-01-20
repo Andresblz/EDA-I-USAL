@@ -2,18 +2,18 @@
 #include <stdlib.h>
 #include "pila.h"
 
-int pilaCreaVacia(Pila *p){
+int pilaCreaVacia(Pila *p) {
 	if (p == NULL) return -1;
 	*p = NULL;
 	return 0;
 }
 
-int pilaVacia(Pila *p){
+int pilaVacia(Pila *p) {
 	if (p == NULL) return -1;
 	return (*p == NULL);
 }
 
-int pilaInserta(Pila *p, tipoElemento elemento){
+int pilaInserta(Pila *p, tipoElemento elemento) {
 	tipoCelda *c;
 
 	if (p == NULL) return -1;
@@ -30,7 +30,7 @@ int pilaInserta(Pila *p, tipoElemento elemento){
 	return 0;
 }
 
-tipoElemento pilaSuprime(Pila *p){
+tipoElemento pilaSuprime(Pila *p) {
 	tipoCelda *aBorrar = *p;
 	tipoElemento elemento = aBorrar->elemento;
 
