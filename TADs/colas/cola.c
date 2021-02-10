@@ -17,7 +17,7 @@ int colaInserta(Cola *c, tipoElemento elemento) {
 	tipoCelda *celda;
 	
 	if(c == NULL) return -1;
-	if((celda = malloc(sizeof(tipoCelda))) == NULL) return -5;
+	if((celda = malloc(sizeof(tipoCelda))) == NULL) return -2;
 
 	celda->elemento = elemento;
 	celda->sig = NULL;
@@ -31,8 +31,7 @@ tipoElemento colaSuprime(Cola *c) {
 	tipoCelda *aBorrar = c->frente;
 	tipoElemento elemento = aBorrar->elemento;
 
-	if(c == NULL) return -1;
-	if(c->frente == NULL) return -1;
+	if(c == NULL || c->frente == NULL) return -1;
 
 	c->frente = aBorrar->sig;
 	if(aBorrar == c->fondo) c->fondo = c->frente;
