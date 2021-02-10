@@ -17,7 +17,7 @@ int pilaInserta(Pila *p, tipoElemento elemento) {
 	tipoCelda *c;
 
 	if (p == NULL) return -1;
-	if (NULL == (c = malloc(sizeof(tipoCelda))) ) return -5;
+	if (NULL == (c = malloc(sizeof(tipoCelda)))) return -2;
 
 	c->elemento = elemento;
 	c->sig = NULL;
@@ -34,8 +34,7 @@ tipoElemento pilaSuprime(Pila *p) {
 	tipoCelda *aBorrar = *p;
 	tipoElemento elemento = aBorrar->elemento;
 
-	if (p == NULL) return -1;
-	if (*p == NULL) return -1;
+	if (p == NULL || *p == NULL) return -1;
 	
 	*p = (*p)->sig;
 	free(aBorrar);
