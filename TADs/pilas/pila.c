@@ -17,7 +17,7 @@ int pilaInserta(Pila *p, tipoElemento elemento) {
 	tipoCelda *c;
 
 	if (p == NULL) return -1;
-	if (NULL == (c = malloc(sizeof(tipoCelda)))) return -2;
+	if ((c = malloc(sizeof(tipoCelda))) == NULL) return -2;
 
 	c->elemento = elemento;
 	c->sig = NULL;
