@@ -1,3 +1,3 @@
 # EDA-I-USAL
 
-_Trabajando en los ejercicios propuestos, estarán subidos dentro de poco_
+_Trabajando en los ejercicios propuestos_
