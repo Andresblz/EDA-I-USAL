@@ -238,7 +238,7 @@ int main(int argc, char *argv[]) {
 
                     while ((tiempoFinal-tiempoInicial < tiempoMinimo) || (repeticiones < numRepeticiones)) { 
                         x = 0;
-                        j = aleatorio;
+                        j = n;
                         while (j >= 1) {
                             x += 1;
                             j /= 2;
@@ -251,7 +251,7 @@ int main(int argc, char *argv[]) {
 
                     fprintf(f,"\n\nAlgoritmo 7");
                     fprintf(f,"\nn           ;tiempoMedio;  repeticiones\n");
-                    fprintf(f, " %d ;%g ; %d \n", aleatorio, tiempo, repeticiones);
+                    fprintf(f, " %d ;%g ; %d \n", n, tiempo, repeticiones);
                     num = 7;
                 }
                 break;
@@ -359,7 +359,7 @@ int main(int argc, char *argv[]) {
                     while ((tiempoFinal-tiempoInicial < tiempoMinimo) || (repeticiones < numRepeticiones)) { 
                         x = 0;
                         i = 1;
-                        while (i < aleatorio) {
+                        while (i < n) {
                             for (j = 1; j < i; j++) {
                                 x += 1;
                             } 
@@ -373,7 +373,7 @@ int main(int argc, char *argv[]) {
 
                     fprintf(f,"\n\nAlgoritmo 11");
                     fprintf(f,"\nn           ;tiempoMedio;  repeticiones\n");
-                    fprintf(f, " %d ;%g ; %d \n", aleatorio, tiempo, repeticiones);
+                    fprintf(f, " %d ;%g ; %d \n", n, tiempo, repeticiones);
                     num = 11;
                 }
                 break;
