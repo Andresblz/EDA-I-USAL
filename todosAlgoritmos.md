@@ -75,8 +75,8 @@ int Secuencial (int *lista, int elementos, int valor) {
 
 ### Opción 2
 #### Tiempo
-- Caso mejor (primera posición): O(1)
-- Caso medio y caso peor: O(n)
+- Caso mejor (primera posición): **O(1)**
+- Caso medio y caso peor: **O(n)**
 
 #### Implementación en Pseudocódigo
 ```
