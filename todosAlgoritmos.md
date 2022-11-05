@@ -555,4 +555,6 @@ void generarLista (int *origen, int base, int tope, int *destino) {
 
 ---
 
+<div id="otros-algoritmos" />
+
 _Trabajando en el resto del documento._
