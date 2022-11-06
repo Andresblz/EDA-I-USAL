@@ -115,7 +115,7 @@ Algoritmo basado en la técnica "Divide y Vencerás", la solución de todo caso 
 En la primera iteración se toma el elemento central de la lista. Encontramos 3 posibilidades:
 - Que sea el valor buscado.
 - Que sea un valor mayor que el buscado, entonces se repite el proceso con la sublista izquierda.
-- Que se aun valor menor que el buscado, entonces se repite el proceso con la sublista derecha.
+- Que sea un valor menor que el buscado, entonces se repite el proceso con la sublista derecha.
 
 **Condición:** La lista o vector debe estar ordenado de manera creciente.
 
