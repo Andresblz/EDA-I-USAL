@@ -66,9 +66,9 @@ Consiste en recorrer la lista, desde el primer elemento hasta el último, compar
 #### Implementación en C
 ```c
 int secuencial (int *lista, int elementos, int valor) {
-    int posicion = -1;
+    int i, posicion = -1;
 
-    for (int i = 0; i < elementos; i++) {
+    for (i = 0; i < elementos; i++) {
         if (lista[i] == valor) 
             posicion = i;
     }
