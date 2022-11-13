@@ -6,5 +6,6 @@ _Trabajando en los ejercicios propuestos_
 
 - Echa un vistazo a los [TADs](https://github.com/Andresblz/EDA-I-USAL/tree/main/TADs) (listas enlazadas y matrices)
 
+---
 
 <a href="https://www.buymeacoffee.com/andresblz" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" height="41" width="174"></a>
