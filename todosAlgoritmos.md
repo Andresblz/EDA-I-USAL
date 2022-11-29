@@ -478,6 +478,11 @@ Se realizan varias pasadas del algoritmo de inserción rebajando la distancia de
 
 La eficiencia de este algoritmo se basa en el hecho de que la ordenación con un determinado incremento no deshace el trabajo realizado anteriormente.
 
+#### Tiempo
+- Caso peor: **O(n<sup>2</sup>)**
+- Caso medio: **O(n log n)**
+- Caso mejor: **O(n log n)**
+
 #### Implementación en Pseudocódigo
 <pre style="font-family: Menlo, Monaco, Consolas, Courier New, monospace">
 <b>Procedimiento</b> ShellSort (T[1..n], Inc[1..n_inc])
@@ -713,7 +718,7 @@ Esta última versión ofrece:
 Recibe el nombre de ordenación por base o por intercambio de base, porque trata los elementos como números en una determinada base, utiliza las cifras decimales (base 10).
 
 #### Tiempo
-
+- En todos los casos el tiempo es: **O(n)**
 
 #### Implementación en Pseudocódigo
 <pre style="font-family: Menlo, Monaco, Consolas, Courier New, monospace">
