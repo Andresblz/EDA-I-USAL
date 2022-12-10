@@ -22,15 +22,15 @@
 * [3.4. MergeSort](#merge-sort)
 
 **[4. Técnicas recursivas](#tecnicas-recursivas)**
-* [4.1. Torres de Hanoi](#tecnicas-recursivas)
-* [4.2. El problema de las 8 reinas](#tecnicas-recursivas)
-* [4.3. El recorrido del caballo](#tecnicas-recursivas)
-* [4.4. El problema de la mochila](#tecnicas-recursivas)
-* [4.5. El problema de los números](#tecnicas-recursivas)
+* [4.1. Torres de Hanoi](#torres-hanoi)
+* [4.2. El problema de las 8 reinas](#ocho-reinas)
+* [4.3. El recorrido del caballo](#recorrido-caballo)
+* [4.4. El problema de la mochila](#problema-mochila)
+* [4.5. El problema de los números](#problema-numeros)
 
-**[5. TADs](#tecnicas-recursivas)**
-* [5.1. Listas enlazadas](#tecnicas-recursivas)
-* [5.2. Matrices](#tecnicas-recursivas)
+**[5. TADs](#tads)**
+* [5.1. Listas enlazadas](#tads)
+* [5.2. Matrices](#tads)
 
 ---
 
@@ -722,35 +722,35 @@ Recibe el nombre de ordenación por base o por intercambio de base, porque trata
 
 #### Implementación en Pseudocódigo
 <pre style="font-family: Menlo, Monaco, Consolas, Courier New, monospace">
-Procedimiento RadixSort (ref ↑ Lista:Nodo; n_grupos, n_cifras)
+<b>Procedimiento</b> RadixSort (ref ↑ Lista:Nodo; n_grupos, n_cifras)
     /* Lista es el puntero raíz de una lista enlazada */
 
     Nodo ↑ pt_grupos[1..n_grupos],
          ↑ pt_últimos[1..n_grupos],
          ↑ pt_aux
     
-    Para i <- 1 Hasta n_cifras Hacer
-        Para j <- 1 Hasta n_grupos Hacer
+    <b>Para</b> i <- 1 <b>Hasta</b> n_cifras <b>Hacer
+        Para</b> j <- 1 <b>Hasta</b> n_grupos <b>Hacer</b>
             pt_grupos[j] <- pt_NULO
             pt_últimos[j] <- pt_NULO
-        Fin Para
+        <b>Fin Para</b>
     
         pt_aux <- Lista
-        Mientras pt_aux ≠ pt_NULO Hacer
+        <b>Mientras</b> pt_aux ≠ pt_NULO <b>Hacer</b>
             extraer la i-ésima cifra de pt_aux↑.llave
             j <- valor cifra obtenida
             añadir pt_aux al final de la lista pt_grupos[j],
             utilizando pt_últimos[j]
             pt_aux <- pt_aux↑.siguiente
-        Fin Mientras
+        <b>Fin Mientras</b>
 
-        Para j <- 1 Hasta n_grupos Hacer     
-            Si pt_grupos[j] ≠ pt_NULO Entonces
+        <b>Para</b> j <- 1 <b>Hasta</b> n_grupos <b>Hacer     
+            Si</b> pt_grupos[j] ≠ pt_NULO <b>Entonces</b>
                 añadir pt_grupos[j] al final de la lista en construcción
-            Fin Si
+            <b>Fin Si
         Fin Para
-    Fin Par
-Fin Procedimiento
+    Fin Para
+Fin Procedimiento</b>
 </pre>
 
 #### Implementación en C
@@ -922,7 +922,501 @@ void generarLista (int *origen, int base, int tope, int *destino) {
 
 ---
 
-
 <div id="tecnicas-recursivas" />
+
+## 4. Técnicas recursivas
+
+Un algoritmo recursivo es aquel que en parte está formado por si mismo o se define en función de si mismo. 
+
+**La principal ventaja** que tienen es la posibilidad de definir un conjunto infinito de objetos mediante una proposición finita.
+
+**Situación idónea**, es cuando el problema a resolver, la función por calcular o la estructura de datos por procesar ya están definidos en términos recursivos.
+
+**Es importante** tener en cuenta que cada vez que un procedimiento se activa de forma recursiva se crea un nuevo conjunto de objetos locales en la pila del programa, esto puede dar lugar al _desbordamiento de pila_.
+
+Por eso, si se puede sustituir un algoritmo recursivo por uno iterativo, hay que hacerlo. En general siempre es cierto que la recursividad se puede reemplazar por _iteración + pila_.
+
+**Pasos para emplear la recursividad:**
+- Examinar varios casos sencillos (buscar un caso base y un método de resolución que funcione de forma general).
+- Encontrar una regla de detención (hay fin de recursividad).
+
+La herramienta fundamental del análisis de algoritmos recursivos es el árbol de recursividad.
+
+---
+### Algoritmos de rastreo inverso o backtracking (ensayo-error)
+
+La tarea consiste en diseñar los algoritmos para encontrar las soluciones de problemas específicos sin seguir una regla fija de cálculo, sino por ensayo y error (tanteo).
+
+El patrón común consiste en:
+- Descomponer el proceso de tanteo en tareas parciales.
+- Generalmente estas se expresan espontáneamente en términos recursivos y consisten en explorar un número finito de subtareas.
+
+El proceso entero como un proceso de ensayo y búsqueda que poco a poco construye y rastrea (poda) un árbol de subtareas.
+
+<pre style="font-family: Menlo, Monaco, Consolas, Courier New, monospace">
+<b>Funcion</b> rastrea
+    soluciones parciales candidatas
+
+    <b>Repetir</b>
+        seleccionar siguiente candidata solución
+        <b>Si</b> solución aceptable <b>Entonces</b>
+            registra solución parcial
+            <b>Si</b> solución incompleta <b>Entonces</b>
+                rastrea
+                <b>Si</b> sin éxito solución final <b>Entonces</b>
+                    elimina solución parcial
+                <b>Fin Si
+            Si No</b>
+                marcar final búsqueda
+            <b>Fin Si
+        Fin Si
+   
+   Hasta</b> final búsqueda <b>O</b> no más candidatas
+   <b>Fin Repetir
+Fin Funcion</b>
+</pre>
+
+[Volver al índice](#indice)
+
+---
+
+<div id="torres-hanoi" />
+
+### 4.1. Torres de Hanoi
+
+En el momento de la creación del mundo, los sacerdotes recibieron una plataforma de bronce sobre la cual había tres agujas de diamante. En la primera aguja estaban apilados 64 discos de oro, cada uno ligeramente menor que el que está debajo de él. 
+
+A los sacerdotes se les encomendó la tarea de pasarlos todos de la primera aguja a la tercera, con dos condiciones:
+- Sólo puede moverse un disco a la vez.
+- Ningún disco podrá ponerse encima de otro más pequeño.
+
+Se dijo a los sacerdotes que, cuando hubieran terminado de mover los 64 discos, llegaría el fin del mundo.
+
+Es un problema típico que se resuelve con la técnica "Divide y Vencerás". El paso clave: concentrarse en mover el último disco, no el primero. Los pasos del algoritmo serían:
+- Mover 63 discos de 1 a 2, utilizando la aguja 3 temporalmente.
+- Mover disco 64 de 1 a 3.
+- Mover los 63 discos de 2 a 3, utilizando la aguja 1 temporalmente.
+
+Partiendo del árbol de recursividad se necesitan 2n - 1 movimientos para n discos.
+
+#### Tiempo
+- El tiempo en general es: **O(2<sup>n</sup>)**
+
+#### Implementación en Pseudocódigo
+<pre style="font-family: Menlo, Monaco, Consolas, Courier New, monospace">
+Llamada inicial: hanoi(n, 1, 3, 2)
+
+n = discos, a = origen, b = destino c = aux
+
+<b>Procedimiento</b> hanoi (n, a, b, c)
+    <b>Si</b> n > 0 <b>Entonces</b>
+        hanoi (n-1, a, c, b)
+        escribe ("Mueve un disco de x a x")
+        hanoi (n-1, c, b, a)
+    <b>Fin Si
+Fin Funcion</b>
+</pre>
+
+#### Implementación en C
+```c
+hanoi(num_discos, 1, 3, 2);  // LLamada inicial
+
+void hanoi (int n, int a, int b, int c) {
+    if (n > 0) {
+        hanoi(n-1, a, c, b);
+        printf("Mueve un disco de %d a %d", a, b):
+        hanoi(n-1, c, b, a);
+    }
+}
+```
+
+[Volver al índice](#indice)
+
+---
+
+<div id="ocho-reinas" />
+
+### 4.2. El problema de las 8 reinas
+
+Hay que colocar ocho reinas en un tablero de ajedrez, de forma que ninguna reina se pueda comer a otra.
+ 
+En el caso concreto que nos ocupa:
+- _La tarea_: colocar las ocho reinas
+- _Se divide en ocho subtareas_: colocar una reina en una columna, siempre que no se coma a las ya colocadas
+ 
+Consiste en completar la búsqueda de la solución de un problema, construyendo soluciones parciales (tanteo), asegurándose siempre que sean coherentes con las exigencias del problema.
+
+Si una solución parcial no es coherente a las exigencias del problema, se rastrea de forma inversa, suprimiendo la última solución parcial probada y probando otra.
+
+#### Implementación en Pseudocódigo
+<pre style="font-family: Menlo, Monaco, Consolas, Courier New, monospace">
+<b>Procedimiento</b> reinas (i, x[1..8], a[1..8], b[-7..7], c[2..16])
+    <b>Para</b> j <- 1 <b>Hasta</b> 8 <b>Hacer</b>
+        <b>Si</b> a[j] <b>Y</b> b[i+j] <b>Y</b> c[i-j] <b>Entonces</b>
+            x[i] <- j
+            a[j] <- b[i+j] <- c[i-j] <- FALSO
+        
+            <b>Si</b> i < 8 <b>Entonces</b>
+                rastreo (i+1, x, a, b, c);
+            <b>Si No</b>
+                imprimir_solución
+            <b>Fin Si</b>
+        
+            a[j] <- b[i+j] <- c[i-j] <- VERDADERO
+        <b>Fin Si
+    Fin Para
+Fin Procedimiento</b>
+</pre>
+
+#### Implementación en C
+```c
+// Llamada inicial
+reinas(0, 0, tablero, filas, diagonalSuma, diagonalResta);
+// Matrices tablero, diagonalSuma y diagonalResta inicializadas a 1
+
+void reinas (int i, int *tablero, int *filas, int *diagonalSuma, int *diagonalResta) {
+    int j;
+
+    for (j = 0; j < 8; j++) {
+        if (filas[j] == 1 && diagonalSuma[i+j] == 1 && diagonalResta[i-j+7] == 1) {
+            tablero[i] = j;
+            filas[j] = diagonalSuma[i+j] = diagonalResta[i-j+7] = 0;
+
+            if (i < 7)
+                reinas(i+1, tablero, filas, diagonalSuma, diagonalResta):
+            else
+                muestraSolucion(tablero, 8);
+
+            filas[j] = diagonalSuma[i+j] = diagonalResta[i-j+7] = 1;
+        }
+    }
+}
+
+void muestraSolucion (int *matriz, int dim) {
+    int i, j;
+
+    for (j = 0; j < dim; j++) {
+        printf("\n");
+        for (i = 0; i < dim; i++) {
+            if(matriz[i] == j)
+                printf(" R ");  
+            else
+                printf(" O ");
+        }
+    }      
+}
+```
+
+[Volver al índice](#indice)
+
+---
+
+<div id="recorrido-caballo" />
+
+### 4.3. El recorrido del caballo
+
+Se tiene un tablero n*n con n<sup>2</sup> campos. Un caballo se pone en el campo de coordenadas iniciales x<sub>0</sub>, y<sub>0</sub>. Encontrar una cobertura de todo el tablero (si existe) moviéndolo conforme a las reglas del ajedrez. Es decir, calcular un recorrido de n<sup>2</sup>-1 movimientos tales que cada campo del tablero sea visitado exactamente una vez.
+ 
+Lo primero de todo vamos a suponer si nos situamos en la casilla central, simulando un eje de coordenadas (x, y), todos los movimientos que podríamos realizar con nuestro caballo, y  este resultado lo almacenamos en dos matrices.
+
+```c
+const int ejeX[] = {2,1,-1,-2,-2,-1, 1, 2};
+const int ejeY[] = {1,2, 2, 1,-1,-2,-2,-1};
+```
+
+Hay que tener en cuenta a la hora de movernos por el teclado, el no sobrepasar los  límites del mismo, ello utilizamos las variables _(u, v)_  que guardarán la posición anterior del caballo y a las que vamos a sumar los movimientos (x, y), para comprobar si es una posición segura.
+
+Al ser rastreo inverso (backtracking):
+- _La tarea_: que el caballo recorra las n*n casillas del tablero
+- _Se divide en (n*n) subtareas_: mover el caballo a una nueva casilla, en la que no haya estado ya.
+
+#### Implementación en Pseudocódigo
+<pre style="font-family: Menlo, Monaco, Consolas, Courier New, monospace">
+<b>Procedimiento</b> Caballo (i, q)
+    k <- 1
+
+    <b>Repetir</b> 
+        u <- pos_x + ejex[k]
+        v <- pos_y + ejey[k]  
+        <b>Si</b> u >= 0 <b>Y</b> u < N <b>Y</b> v >= 0 <b>Y</b> v < N <b>Entonces</b>
+            <b>Si</b> tab [u][v] = 0 <b>Entonces</b>
+                tab [u][v] = i
+            <b>Fin Si
+     
+            Si</b> i < N*N <b>Entonces</b>
+                rastreo(i+1)
+            <b>Si No</b>
+                imprimeSolución
+            <b>Fin Si
+        Fin Si</b>
+ 
+        k <- k + 1
+    <b>Mientras</b> (!q) <b>Y</b> (j < 8)
+    <b>Fin Repetir
+Fin Procedimietno</b>
+</pre>
+
+#### Implementación en C
+```c
+#define N 10
+
+const int ejeX[] = {2,1,-1,-2,-2,-1, 1, 2};
+const int ejeY[] = {1,2, 2, 1,-1,-2,-2,-1};
+
+void caballo (int tablero[][N], int i, int posX, int posY) {
+    int k = 0, u, v;
+
+    do {
+        u = posX + ejeX[k];
+        v = posY + ejeY[k];
+        if (u >= 0 && u < N && v >= 0 && v < N) {
+            if (tab[u][v] == 0) {
+                tab[u][v] = i;
+
+                if(i < N * N)
+                    caballo (tablero, i+1, u, v);
+                else
+                    muestraSolucion(tablero);
+
+                tab[u][v] = 0;
+            }
+        }
+        k++;
+    } while (k < 8);
+}
+
+void muestraSolucion (int tablero[][N]) {
+    
+}
+```
+
+[Volver al índice](#indice)
+
+---
+
+<div id="problema-mochila" />
+
+### 4.4. El problema de la mochila
+
+Un esforzado cartero desea llevar en su cartera exactamente v kilogramos, se tiene para elegir un conjunto de objetos de pesos conocidos. Se desea cargar la cartera con un peso que sea igual al objetivo. Es decir, dado un conjunto de pesos _p1, p2, ..., pn_ (enteros positivos), estudiar si existe una selección de pesos que totalice exactamente el valor dado como objetivo, v.
+
+Al ser rastreo inverso (Backtracking):
+- _La tarea_: cargar la mochila con un peso de valor v.
+- _Se divide en pn subtareas_:  cargar la mochila con un peso que no sobrepase el valor n.
+
+#### Implementación en Pseudocódigo
+<pre style="font-family: Menlo, Monaco, Consolas, Courier New, monospace">
+<b>Procedimiento</b> Mochila
+    soluciones parciales candidatas
+
+    <b>Repetir</b>
+        siguiente candidata a solución
+        <b>Si</b> solución aceptable <b>Entonces</b>
+            registra solución parcial
+            <b>Si</b> solución incompleta <b>Entonces</b>
+                mochila
+                <b>Si</b> no llego a solución final <b>Entonces</b>
+                    elimina solución parcial
+                <b>Fin Si
+            Si No</b>
+                marcar final búsqueda
+            <b>Fin Si
+        Fin Si
+    Hasta</b> final búsqueda <b>O</b> no más candidatas
+<b>Fin Procedimiento</b>
+</pre>
+
+#### Implementación en C
+```c
+// Datos a tener en cuenta
+typedef struct t_objeto {
+    int peso;       /* Peso del objeto */ 
+    int cargado;    /* Si esta en la mochila o no*/ 
+} Objeto;
+
+// Declaramos en el main:
+int mochila[num_objetos];
+Objeto objetos[num_objetos];
+// Creamos aleatoriamente los objetos
+
+/*
+ * ind_m  = indice de la mochila.
+ * ind_o  = último elemento cargado en la mochila.
+ * peso_m = peso que llevo guardado en la mochila.
+ * fin    = bandera, 1 si he encontrado solución.
+ */
+
+void mochila(int *mochila, int ind_m, int ind_o, int peso_m, Objeto *objetos, int *fin) {
+    int i = ind_o - 1; 
+ 
+    do {
+        i++;
+        (*fin) = 0;
+ 
+        if (!objetos[i].cargado && (objetos[i].peso+peso_m) <= PESO) {
+            objetos[i].cargado = 1;
+            mochila[ind_m] = objetos[i].peso;
+            peso_m += objetos[i].peso;
+ 
+            if (peso_m < PESO) {
+                mochila(mochila, ind_m+1, i, peso_m, objetos, fin);
+                if (!(*fin)) {
+                    objetos[i].cargado = 0;
+                    mochila[ind_m] = 0;
+                    peso_m -= objetos[i].peso;
+                }
+            } else (*fin) = 1;​
+        }
+    } while (!(*fin) && i < num_objetos-1);
+}
+```
+
+#### Variante
+
+Una variante del problema anterior sería buscar la solución óptima, conocido también como el problema de la mochila: un viajante tiene que hacer las maletas seleccionando entre n artículos, aquellos cuya suma de valores (valor o precio total) sea un máximo (solución óptima) y la suma de sus pesos no exceda de un peso límite dado.
+
+Sigue tratándose de una estrategia de rastreo inverso para generar todas las soluciones posibles, pero en este caso, cada vez que se alcance una solución se guarda si es mejor que las anteriores según la restricción definida.
+
+#### Implementación en Pseudocódigo
+<pre style="font-family: Menlo, Monaco, Consolas, Courier New, monospace">
+<b>Procedimiento</b> Mochila
+    soluciones parciales candidatas
+    
+    <b>Repetir</b>
+        siguiente candidata a solución
+        <b>Si</b> solución aceptable <b>Entonces</b>
+            registra solución parcial
+            <b>Si</b> solución incompleta <b>Entonces</b>
+                mochila
+                <b>Si</b> no llego a solución final <b>Entonces</b>
+                    elimina solución parcial
+                <b>Fin Si
+            Si No</b>
+                marcar final búsqueda
+            <b>Fin Si
+        Fin Si
+    Hasta</b> final búsqueda <b>O</b> no más candidatas
+<b>Fin Procedimiento</b>
+</pre>
+
+#### Implementación en C
+```c
+// Datos a tener en cuenta
+typedef struct t_objeto {
+    int peso;       /* Peso del objeto */ 
+    int valor;      /* Valor del objeto */
+    int cargado;    /* Si esta ya cargado */
+} Objeto;
+
+// Declaramos en el main:
+int mochila1[num_objetos]
+int mochila2[num_objetos]
+Objeto objetos[num_objetos]
+// Creamos aleatoriamente los objetos
+
+/*
+ * ind_m  = indice de la mochila.
+ * ind_o  = último elemento cargado en la mochila.
+ * peso_m = peso que llevo guardado en la mochila.
+ * fin    = bandera, 1 si he encontrado solución.
+ */
+
+void mochila(int *mochila1, int *mochila2, int valor1, int *valor2, int ind_m, int ind_o, int peso_m, Objeto *objetos) {
+    int valor = valor1, i, j; 
+    
+    for (i = ind_o; i < 10; i++) {
+        if (!objetos[i].cargado && (objetos[i].peso+peso_m) <= PESO ) {
+            objetos[i].cargado = 1;
+            mochila1[ind_m] = i;
+            peso_m += objetos[i].peso;
+            valor += objetos[i].valor;
+        
+            if (peso_m < PESO)
+                mochila(mochila1, mochila2, valor, valor2, ind_m+1, i+1, peso_m, objetos);
+            else {
+                imprimeSolucion(mochila1, objetos);
+                if (valor > (*valor2)) {
+                    for (j = 0; j < N_OBJETOS; j++)
+                        mochila2[j] = mochila1[j];
+                    (*valor2) = valor;
+                }
+            }
+
+            objetos[i].cargado = 0;
+            mochila1[ind_m] = -1;
+            peso_m -= objetos[i].peso;
+            valor -= objetos[i].valor;
+        }
+    }
+}
+```
+
+[Volver al índice](#indice)
+
+---
+
+<div id="problema-numeros" />
+
+### 4.5. El problema de los números
+
+Obtener todos los números de m (m<=9) cifras, todas ellas distintas de cero y distintas entre sí, de tal manera que el número formado por las n primeras cifras, cualquiera que sea n (n <= m), sea múltiplo de n. Por ejemplo, para m=4 son números válidos, entre otros, los siguientes:
+- 1236: ​ya que 1 es múltiplo de 1, 12 de 2, 123 de 3 y 1236 de 4
+- 9872: ya que 9 es múltiplo de 1, 98 de 2, 987 de 3 y 9872 de 4
+ 
+Es un problema de Backtracking.
+
+#### Implementación en Pseudocódigo
+<pre style="font-family: Menlo, Monaco, Consolas, Courier New, monospace">
+<b>Procedimiento</b> numeros (i)
+
+    soluciones parciales candidatas
+    <b>Para</b> i <- 1 <b>Hasta</b> n <b>Hacer</b>
+        siguiente candidata a solución
+
+        <b>Si</b> solución aceptable <b>Entonces</b>
+            registra solución parcial
+
+            <b>Si</b> solución incompleta <b>Entonces</b>
+                numeros
+            <b>Si No</b>
+                imprimo resultado
+            <b>Fin Si</b>
+
+            elimino solución parcial
+        <b>Fin Si
+    Fin Para  
+Fin Procedimiento</b>
+</pre>
+
+#### Implementación en C
+```c
+numeros(4, 1, num, 0); // Llamada inicial
+ 
+void numeros(int m, int cifra, int *num, int resultado) {
+    int i, j, repite; 
+    
+    for (i = 1; i < DIM; i++) {    
+        repite = 0;
+        for (j = 0; j < cifra; j++)
+            if (num[j]== i) repite = 1;
+                
+        if(!((resultado+i)%cifra) && !repite) {
+            resultado += i;  
+            num[cifra-1] = i;
+        
+            if (cifra < m) numeros(m, cifra+1, num, (resultado*10));
+            else printf("\nResultado: %d", resultado);
+        
+            resultado /= 10;
+            resultado *= 10;
+            num[cifra-1] = -1;
+        }  
+    }
+}
+```
+
+---
+
+<div id="tads" />
 
 _Trabajando en el resto del documento._
